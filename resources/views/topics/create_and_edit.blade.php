@@ -46,7 +46,7 @@
                         <textarea name="body" class="form-control" id="editor" rows="3" placeholder="请填入至少三个字符的内容。" required>{{ old('body', $topic->body ) }}</textarea>
                     </div>
 
-                    <div class="well well-sm">
+                        <div class="well well-sm">
                         <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 保存</button>
                     </div>
                 </form>
@@ -67,7 +67,7 @@
     <script type="text/javascript"  src="{{ asset('js/uploader.js') }}"></script>
     <script type="text/javascript"  src="{{ asset('js/simditor.js') }}"></script>
 
-    <script>
+    <!-- <script>
    $(document).ready(function(){
         var editor = new Simditor({
             textarea: $('#editor'),
@@ -82,5 +82,5 @@
         });
     });
     </script>
-
+ -->
 @stop
