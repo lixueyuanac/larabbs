@@ -294,9 +294,7 @@
   opacity: 0.6;
 }
 .simditor .simditor-toolbar > ul > li > .toolbar-item span.simditor-icon {
-  /*display: inline; */
-  padding-top: 13px;
-
+  display: inline;
   line-height: normal;
 }
 .simditor .simditor-toolbar > ul > li > .toolbar-item:hover span {
