@@ -71,6 +71,7 @@ return array(
 		],
 		'站点管理' => [
 			'settings.site',
+			'links',
 		],
 	],
 
@@ -104,7 +105,7 @@ return array(
 		     *
 		     * @type string
 	*/
-	'home_page' => 'home_page',
+	'home_page' => 'users',
 
 	/*
 		     * The route to which the user will be taken when they click the "back to site" button
