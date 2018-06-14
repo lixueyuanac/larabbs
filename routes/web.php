@@ -11,10 +11,7 @@
 |
  */
 
-Route::get('/', function () {
-	return view('pages/root');
-});
-
+Route::get('/', 'TopicsController@index')->name('root');
 Route::get('pages', 'PagesController@root');
 
 // Authentication Routes...
