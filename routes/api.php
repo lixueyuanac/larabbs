@@ -32,7 +32,7 @@ $api->version('v2', function ($api) {
 });
 
 $api->version('v1', [
-	'namespace' => 'App\Http\Controllers\Api', 'middleware' => 'serializer:array',
+	'namespace' => 'App\Http\Controllers\Api', 'middleware' => ['serializer:array', 'bindings'],
 ], function ($api) {
 	// 短信验证码
 	$api->group([
@@ -76,6 +76,9 @@ $api->version('v1', [
 			// 发布话题
 			$api->post('topics', 'TopicsController@store')
 				->name('api.topics.store');
+			//修改话题
+			$api->patch('topics/{topic}', 'TopicsController@update')
+				->name('api.topics.update');
 		});
 	});
 
