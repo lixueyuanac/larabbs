@@ -6,6 +6,7 @@ use App\Http\Requests\Api\ReplyRequest;
 use App\Models\Reply;
 use App\Models\Topic;
 use App\Transformers\ReplyTransformer;
+use Illuminate\Support\Facades\Auth;
 
 class RepliesController extends Controller {
 	//
@@ -15,5 +16,15 @@ class RepliesController extends Controller {
 		$reply->user_id = $this->user()->id;
 		$reply->save();
 		return $this->response->item($reply, new ReplyTransformer())->setStatusCode(201);
+	}
+
+	public function destory(Topic $topic, Reply $reply) {
+		if ($reply->topic_id != $topic->id) {
+			return $this->response->errorBadRequest();
+		}
+		$this->authorize('destory', $reply);
+		$reply->delete();
+
+		return $this->response->noConent();
 	}
 }
