@@ -5,11 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\Api\ReplyRequest;
 use App\Models\Reply;
 use App\Models\Topic;
+use App\Models\User;
 use App\Transformers\ReplyTransformer;
 use Illuminate\Support\Facades\Auth;
 
 class RepliesController extends Controller {
 	//
+	public function index(Topic $topic) {
+		$replies = $topic->replies()->paginate(20);
+
+		return $this->response->paginator($replies, new ReplyTransformer());
+	}
+
 	public function store(ReplyRequest $request, Topic $topic, Reply $reply) {
 		$reply->content = $request->content;
 		$reply->topic_id = $topic->id;
@@ -18,13 +25,19 @@ class RepliesController extends Controller {
 		return $this->response->item($reply, new ReplyTransformer())->setStatusCode(201);
 	}
 
-	public function destory(Topic $topic, Reply $reply) {
+	public function destroy(Topic $topic, Reply $reply) {
 		if ($reply->topic_id != $topic->id) {
 			return $this->response->errorBadRequest();
 		}
-		$this->authorize('destory', $reply);
+		$this->authorize('destroy', $reply);
 		$reply->delete();
 
-		return $this->response->noConent();
+		return $this->response->noContent();
+	}
+
+	public function userIndex(User $user) {
+		$replies = $user->replies()->paginate(20);
+
+		return $this->response->paginator($replies, new ReplyTransformer());
 	}
 }
