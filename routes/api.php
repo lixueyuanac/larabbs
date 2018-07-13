@@ -102,6 +102,7 @@ $api->version('v1', [
 		// 某个用户的回复列表
 		$api->get('users/{user}/replies', 'RepliesController@userIndex')
 			->name('api.users.replies.index');
+		//资源推荐
 		$api->get('links', 'LinksController@index')->name('api.links.index');
 		// 通知列表
 		$api->get('user/notifications', 'NotificationsController@index')
@@ -112,6 +113,9 @@ $api->version('v1', [
 		// 标记消息通知为已读
 		$api->patch('user/read/notifications', 'NotificationsController@read')
 			->name('api.user.notifications.read');
+		// 活跃用户
+		$api->get('actived/users', 'UsersController@activedIndex')
+			->name('api.actived.users.index');
 	});
 
 });
