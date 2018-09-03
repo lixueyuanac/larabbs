@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Dingo\Api\Http\FormRequest;
 
 class UserRequest extends FormRequest {
 	/**
@@ -29,6 +29,7 @@ class UserRequest extends FormRequest {
 				'verification_code' => 'required|string',
 			];
 			break;
+		case 'PUT':
 		case 'PATCH':
 			$userId = \Auth::guard('api')->id();
 			return [

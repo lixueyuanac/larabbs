@@ -32,7 +32,7 @@ $api->version('v2', function ($api) {
 });
 
 $api->version('v1', [
-	'namespace' => 'App\Http\Controllers\Api', 'middleware' => ['serializer:array', 'bindings'],
+	'namespace' => 'App\Http\Controllers\Api', 'middleware' => ['serializer:array', 'bindings', 'change-locale'],
 ], function ($api) {
 	// 短信验证码
 	$api->group([
@@ -54,13 +54,18 @@ $api->version('v1', [
 		// 登录
 		$api->post('authorizations', 'AuthorizationsController@store')
 			->name('api.authorizations.store');
+		// 小程序登录
+		$api->post('weapp/authorizations','AuthorizationsController@weappStore')->name('api.weapp.authorizations.store');
+		// 小程序注册
+        $api->post('weapp/users','UsersController@weappStore')->name('api.webapp.users.store');
 		// 刷新token
 		$api->put('authorizations/current', 'AuthorizationsController@update')
 			->name('api.authorizations.update');
 		// 删除token
 		$api->delete('authorizations/current', 'AuthorizationsController@destroy')
 			->name('api.authorizations.destroy');
-
+        // 用户详情
+        $api->get('users/{user}', 'UsersController@show')->name('api.users.show');
 		// 游客可以访问的接口
 		$api->get('categories', 'CategoriesController@index')->name('api.categories.index');
 		//话题列表
@@ -71,8 +76,8 @@ $api->version('v1', [
 
 		//话题详情
 		$api->get('topics/{topic}', 'TopicsController@show')->name('api.topics.show');
-		//发布回复
-		$api->post('topics/{topic}/replies', 'RepliesController@store')->name('api.topics.replies.store');
+		$api->get('permission/assign', 'PermissionController@assign')->name('api.permission.assign');
+
 		// 需要 token 验证的接口
 		$api->group(['middleware' => 'api.auth'], function ($api) {
 			// 当前登录用户信息
@@ -81,7 +86,8 @@ $api->version('v1', [
 			// 图片资源
 			$api->post('images', 'ImagesController@store')->name('api.user.store');
 			//编辑登录用户信息
-			$api->patch('user', 'UsersController@update')->name('api.user.update');
+			$api->patch('user', 'UsersController@update')->name('api.user.patch');
+			$api->put('user', 'UsersController@update')->name('api.user.update');
 
 			// 发布话题
 			$api->post('topics', 'TopicsController@store')
@@ -91,7 +97,34 @@ $api->version('v1', [
 				->name('api.topics.update');
 			//删除话题
 			$api->delete('topics/{topic}', 'TopicsController@destory')->name('api.topics.destory');
+			//发布回复
+			$api->post('topics/{topic}/replies', 'RepliesController@store')->name('api.topics.replies.store');
+			//删除回复
+			$api->delete('topics/{topic}/replies/{reply}', 'RepliesController@destroy')->name('api.topics.replies.destory');
 		});
+		//某个用户发布的话题
+		$api->get('users/{user}/topics', 'TopicsController@userIndex')->name('api.users.topics.index');
+		//话题回复列表
+		$api->get('topics/{topic}/replies', 'RepliesController@index')->name('api.topics.replies.index');
+		// 某个用户的回复列表
+		$api->get('users/{user}/replies', 'RepliesController@userIndex')
+			->name('api.users.replies.index');
+		//资源推荐
+		$api->get('links', 'LinksController@index')->name('api.links.index');
+		// 通知列表
+		$api->get('user/notifications', 'NotificationsController@index')
+			->name('api.user.notifications.index');
+		// 通知统计
+		$api->get('user/notifications/stats', 'NotificationsController@stats')
+			->name('api.user.notifications.stats');
+		// 标记消息通知为已读
+		$api->patch('user/read/notifications', 'NotificationsController@read')
+			->name('api.user.notifications.read');
+        $api->put('user/read/notifications', 'NotificationsController@read')
+            ->name('api.user.notifications.read.put');
+		// 活跃用户
+		$api->get('actived/users', 'UsersController@activedIndex')
+			->name('api.actived.users.index');
 	});
 
 });

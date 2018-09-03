@@ -80,6 +80,8 @@ class Kernel extends HttpKernel {
 		// 只有游客才能访问，在 register 和 login 请求中使用，只有未登录用户才能访问这些页面
 		'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
 		// 访问节流，类似于 『1 分钟只能请求 10 次』的需求，一般在 API 中使用
-		'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+		'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class, // 接口语言设置
+		// 接口语言设置
+		'change-locale' => \App\Http\Middleware\ChangeLocale::class,
 	];
 }
