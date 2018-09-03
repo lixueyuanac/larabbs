@@ -122,6 +122,9 @@ $api->version('v1', [
 			->name('api.user.notifications.read');
         $api->put('user/read/notifications', 'NotificationsController@read')
             ->name('api.user.notifications.read.put');
+        // 当前登录用户权限
+        $api->get('user/permissions', 'PermissionsController@index')
+            ->name('api.user.permissions.index');
 		// 活跃用户
 		$api->get('actived/users', 'UsersController@activedIndex')
 			->name('api.actived.users.index');
